@@ -23,6 +23,7 @@ import pygments.formatters
 import pygments.styles
 import pygments.util
 
+__version__ = 1
 # Configuration ----------------------------------------------------------------
 
 YLDME_PRESETS   = [
@@ -51,14 +52,23 @@ YLDME_PRESETS   = [
     ('cse-40175-fa18'   , 'https://www3.nd.edu/~pbui/teaching/cse.40175.fa18/', 'url'),
     ('pbc-su17'         , 'https://www3.nd.edu/~pbui/teaching/pbc.su17/'      , 'url'),
 ]
-YLDME_URL       = 'https://yld.me'
-YLDME_PORT      = 9515
+# YLDME_URL       = 'https://yld.me'
+YLDME_URL = '127.0.0.1'
+YLDME_PORT      = 8888
 YLDME_ADDRESS   = '127.0.0.1'
 YLDME_ALPHABET  = string.ascii_letters + string.digits
 YLDME_MAX_TRIES = 10
 YLDME_ASSETS    = os.path.join(os.path.dirname(__file__), 'assets')
 YLDME_STYLES    = os.path.join(YLDME_ASSETS, 'css', 'pygments')
 YLDME_UPLOADS   = os.path.join(os.path.dirname(__file__), 'uploads')
+# current_dir = os.path.dirname(__file__)
+# current_dir = current_dir.split('/')
+# current_dir = current_dir[:len(current_dir) - 2]
+# current_dir = '/'.join(current_dir)
+# YLDME_UPLOADS = os.path.join(current_dir, 'uploads')
+# YLDME_ASSETS = os.path.join(current_dir, 'assets')
+# YLDME_STYLES = os.path.join(YLDME_ASSETS, 'css', 'pygments')
+print(YLDME_UPLOADS)
 
 # Constants --------------------------------------------------------------------
 
@@ -265,6 +275,10 @@ class YldMeHandler(tornado.web.RequestHandler):
                 name = self.application.generate_name()
                 self.application.database.add(name, value_hash, type)
                 if type != 'url':
+                    print("looking for", YLDME_UPLOADS)
+                    if not os.path.isdir(YLDME_UPLOADS):
+                        print("did not find")
+                        os.makedirs(YLDME_UPLOADS)
                     with open(os.path.join(YLDME_UPLOADS, name), 'wb+') as fs:
                         fs.write(value)
                 data = self.application.database.get(name)
@@ -316,7 +330,7 @@ class YldMeApplication(tornado.web.Application):
 
 # Main execution ---------------------------------------------------------------
 
-if __name__ == '__main__':
+def main():
     tornado.options.define('debug', default=False, help='Enable debugging mode.')
     tornado.options.define('port', default=YLDME_PORT, help='Port to listen on.')
     tornado.options.define('template_path', default=os.path.join(os.path.dirname(__file__), "templates"), help='Path to templates')
@@ -326,4 +340,6 @@ if __name__ == '__main__':
     yldme   = YldMeApplication(**options)
     yldme.run()
 
+if __name__ == '__main__':
+    main()
 # vim: sts=4 sw=4 ts=8 expandtab ft=python
