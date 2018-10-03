@@ -1,0 +1,31 @@
+---
+presets:
+        url: https://yld.me
+        paste: https://yld.me
+        pbui: https://www3.nd.edu/~pbui
+        cdt-30010-fa15: https://www3.nd.edu/~pbui/teaching/cdt.30010.fa15/
+        cdt-30020-sp16: https://www3.nd.edu/~pbui/teaching/cdt.30020.sp16/
+        cse-20189-sp16: https://www3.nd.edu/~pbui/teaching/cse-20189-sp16/
+        cse-40175-sp16: https://www3.nd.edu/~pbui/teaching/cse-40175-sp16/
+        cdt-30010-fa16: https://www3.nd.edu/~pbui/teaching/cdt-30010-fa16/
+        cse-30331-fa16: https://www3.nd.edu/~pbui/teaching/cse-30331-fa16/
+        cse-40175-fa16: https://www3.nd.edu/~pbui/teaching/cse-40175-fa16/
+        cse-40175-sp17: https://www3.nd.edu/~pbui/teaching/cse-40175-sp17/
+        cse-40842-sp17: https://www3.nd.edu/~pbui/teaching/cse-40842-sp17/
+        cse-20289-sp17: https://www3.nd.edu/~pbui/teaching/cse-20289-sp17/
+        cse-30341-fa17: https://www3.nd.edu/~pbui/teaching/cse-30341-fa17/
+        cse-30872-fa17: https://www3.nd.edu/~pbui/teaching/cse-30872-fa17/
+        cse-40175-fa17: https://www3.nd.edu/~pbui/teaching/cse-40175-fa17/
+        cse-20289-sp18: https://www3.nd.edu/~pbui/teaching/cse-20289-sp18/
+        cse-40175-sp18: https://www3.nd.edu/~pbui/teaching/cse-40175-sp18/
+        cse-40850-sp18: https://www3.nd.edu/~pbui/teaching/cse-40850-sp18/
+        eg-44175-su18: https://www3.nd.edu/~pbui/teaching/eg-44175-su18/
+        cse-30341-fa18: https://www3.nd.edu/~pbui/teaching/cse-30341-fa18/
+        cse-30872-fa18: https://www3.nd.edu/~pbui/teaching/cse-30872-fa18/
+        cse-40175-fa18: https://www3.nd.edu/~pbui/teaching/cse-30872-fa18/
+        pbc-su17: https://www3.nd.edu/~pbui/teaching/pbc.su17/
+others:
+        url: https://yld.me
+        port: 9515
+        address: 127.0.0.1
+        max_tries: 10

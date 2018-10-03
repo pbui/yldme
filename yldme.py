@@ -12,6 +12,7 @@ import string
 import subprocess
 import sys
 import time
+import yaml
 
 import tornado.ioloop
 import tornado.options
@@ -25,32 +26,11 @@ import pygments.util
 
 # Configuration ----------------------------------------------------------------
 
-YLDME_PRESETS   = [
-    ('url'              , 'http://yld.me', 'url'),
-    ('paste'            , 'http://yld.me', 'url'),
-    ('pbui'             , 'http://www3.nd.edu/~pbui', 'url'),
-    ('cdt-30010-fa15'   , 'https://www3.nd.edu/~pbui/teaching/cdt.30010.fa15/', 'url'),
-    ('cdt-30020-sp16'   , 'https://www3.nd.edu/~pbui/teaching/cdt.30020.sp16/', 'url'),
-    ('cse-20189-sp16'   , 'https://www3.nd.edu/~pbui/teaching/cse.20189.sp16/', 'url'),
-    ('cse-40175-sp16'   , 'https://www3.nd.edu/~pbui/teaching/cse.40175.sp16/', 'url'),
-    ('cdt-30010-fa16'   , 'https://www3.nd.edu/~pbui/teaching/cdt.30010.fa16/', 'url'),
-    ('cse-30331-fa16'   , 'https://www3.nd.edu/~pbui/teaching/cse.30331.fa16/', 'url'),
-    ('cse-40175-fa16'   , 'https://www3.nd.edu/~pbui/teaching/cse.40175.fa16/', 'url'),
-    ('cse-40175-sp17'   , 'https://www3.nd.edu/~pbui/teaching/cse.40175.sp17/', 'url'),
-    ('cse-40842-sp17'   , 'https://www3.nd.edu/~pbui/teaching/cse.40842.sp17/', 'url'),
-    ('cse-20289-sp17'   , 'https://www3.nd.edu/~pbui/teaching/cse.20289.sp17/', 'url'),
-    ('cse-30341-fa17'   , 'https://www3.nd.edu/~pbui/teaching/cse.30341.fa17/', 'url'),
-    ('cse-30872-fa17'   , 'https://www3.nd.edu/~pbui/teaching/cse.30872.fa17/', 'url'),
-    ('cse-40175-fa17'   , 'https://www3.nd.edu/~pbui/teaching/cse.40175.fa17/', 'url'),
-    ('cse-20289-sp18'   , 'https://www3.nd.edu/~pbui/teaching/cse.20289.sp18/', 'url'),
-    ('cse-40175-sp18'   , 'https://www3.nd.edu/~pbui/teaching/cse.40175.sp18/', 'url'),
-    ('cse-40850-sp18'   , 'https://www3.nd.edu/~pbui/teaching/cse.40850.sp18/', 'url'),
-    ('eg-44175-su18'    , 'https://www3.nd.edu/~pbui/teaching/eg.44175.su18/' , 'url'),
-    ('cse-30341-fa18'   , 'https://www3.nd.edu/~pbui/teaching/cse.30341.fa18/', 'url'),
-    ('cse-30872-fa18'   , 'https://www3.nd.edu/~pbui/teaching/cse.30872.fa18/', 'url'),
-    ('cse-40175-fa18'   , 'https://www3.nd.edu/~pbui/teaching/cse.40175.fa18/', 'url'),
-    ('pbc-su17'         , 'https://www3.nd.edu/~pbui/teaching/pbc.su17/'      , 'url'),
-]
+YLDME_PRESETS = []
+config = yaml.safe_load(open('config.yaml','r'))
+for k,v in config['presets'].items():
+    YLDME_PRESETS.append("('{}','{}','url')".format(k,v))
+
 YLDME_URL       = 'https://yld.me'
 YLDME_PORT      = 9515
 YLDME_ADDRESS   = '127.0.0.1'
@@ -70,6 +50,8 @@ def make_parent_directories(path):
     dirname = os.path.dirname(path)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
+    if not os.path.exists(YLDME_UPLOADS):
+        os.makedirs(YLDME_UPLOADS)
 
 
 def integer_to_identifier(integer, alphabet=YLDME_ALPHABET):
@@ -144,11 +126,11 @@ class Database(object):
             curs = self.conn.cursor()
             curs.execute(Database.SQL_CREATE_TABLE)
 
-        for name, value, type in YLDME_PRESETS:
-            try:
-                self.add(name, value, type)
-            except sqlite3.IntegrityError:
-                pass
+        #for name, value, type in YLDME_PRESETS:
+        #    try:
+        #        self.add(name, value, type)
+        #    except sqlite3.IntegrityError:
+        #        pass
 
     def add(self, name, value, type=None):
         type = type or 'url'
