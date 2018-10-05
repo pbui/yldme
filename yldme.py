@@ -25,21 +25,28 @@ import pygments.styles
 import pygments.util
 
 # Configuration ----------------------------------------------------------------
-
-YLDME_PRESETS = []
+    
+YLDME_PRESETS = {}
 config = yaml.safe_load(open('config.yaml','r'))
 for k,v in config['presets'].items():
-    YLDME_PRESETS.append("('{}','{}','url')".format(k,v))
+    YLDME_PRESETS[k] = v
 
+
+YLDME_URL = config['url']
+YLDME_PORT = config['port']
+YLDME_ADDRESS = config['address']
+YLD_MAX_TRIES = config['max_tries']
+'''
 YLDME_URL       = 'https://yld.me'
 YLDME_PORT      = 9515
 YLDME_ADDRESS   = '127.0.0.1'
 YLDME_ALPHABET  = string.ascii_letters + string.digits
 YLDME_MAX_TRIES = 10
+'''
+YLDME_ALPHABET = string.ascii_letters + string.digits
 YLDME_ASSETS    = os.path.join(os.path.dirname(__file__), 'assets')
 YLDME_STYLES    = os.path.join(YLDME_ASSETS, 'css', 'pygments')
 YLDME_UPLOADS   = os.path.join(os.path.dirname(__file__), 'uploads')
-
 # Constants --------------------------------------------------------------------
 
 TRUE_STRINGS = ('1', 'true', 'on', 'yes')
@@ -126,11 +133,11 @@ class Database(object):
             curs = self.conn.cursor()
             curs.execute(Database.SQL_CREATE_TABLE)
 
-        #for name, value, type in YLDME_PRESETS:
-        #    try:
-        #        self.add(name, value, type)
-        #    except sqlite3.IntegrityError:
-        #        pass
+        for name, value in YLDME_PRESETS.items():
+            try:
+                self.add(name, value)
+            except sqlite3.IntegrityError:
+                pass
 
     def add(self, name, value, type=None):
         type = type or 'url'
