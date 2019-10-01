@@ -90,10 +90,13 @@ def determine_text_format(file_data, file_mime='text/plain', file_ext='.txt', st
 
     if file_mime == 'text/plain':
         try:
-            yaml_data = yaml.load(file_data)
-            file_mime = 'text/x-yaml'
-            file_ext  = '.yaml'
-        except yaml.parser.ParserError:
+            yaml_data = yaml.safe_load(file_data)
+            if not isinstance(yaml_data, list) and not isinstance(yaml_data, dict):
+                yaml_data = None
+            else:
+                file_mime = 'text/x-yaml'
+                file_ext  = '.yaml'
+        except (yaml.parser.ParserError, yaml.scanner.ScannerError):
             pass
 
         try:
@@ -424,7 +427,7 @@ class YldMeApplication(tornado.web.Application):
         self.config_path = os.path.join(self.config_dir, 'config.yaml')
 
         if os.path.exists(self.config_path):
-            config = yaml.load(open(self.config_path))
+            config = yaml.safe_load(open(self.config_path))
         else:
             config = {}
 
