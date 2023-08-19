@@ -233,7 +233,7 @@ class YldMeHandler(tornado.web.RequestHandler):
             self._get_paste(name, data)
 
     def _get_url(self, name, data):
-        self.redirect(data.value)
+        self.redirect(data.value.strip())
 
     def _get_paste(self, name, data):
         file_path = os.path.join(self.application.uploads_dir, name)
@@ -292,7 +292,7 @@ class YldMeHandler(tornado.web.RequestHandler):
             value        = self.request.body
 
         if type == 'url':
-            value_hash = value
+            value_hash = value.strip()
         elif type == 'paste':
             value_hash = checksum(value)
         else:
