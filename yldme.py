@@ -220,6 +220,9 @@ class YldMeHandler(tornado.web.RequestHandler):
         if name is None:
             return self._index()
 
+        if name == 'url':
+            return self.post(name)
+
         name = name.split('.')[0]
         data = self.application.database.get(name)
         if data is None:
@@ -287,6 +290,9 @@ class YldMeHandler(tornado.web.RequestHandler):
         elif 'file' in self.request.files:
             use_template = False
             value        = self.request.files['file'][0].body
+        elif self.get_argument('originalUrl', ''):
+            use_template = False
+            value        = self.get_argument('originalUrl')
         else:
             use_template = False
             value        = self.request.body
