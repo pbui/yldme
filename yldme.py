@@ -100,14 +100,14 @@ def determine_text_format(file_data, file_mime='text/plain', file_ext='.txt', st
             else:
                 file_mime = 'text/x-yaml'
                 file_ext  = '.yaml'
-        except (yaml.parser.ParserError, yaml.scanner.ScannerError, yaml.reader.ReaderError):
+        except yaml.YAMLError:
             pass
 
         try:
             json_data = json.loads(file_data)
             file_mime = 'application/json'
             file_ext  = '.json'
-        except json.decoder.JSONDecodeError:
+        except json.JSONDecodeError:
             pass
 
     if json_data:
