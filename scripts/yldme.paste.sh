@@ -10,13 +10,10 @@ if [ -z "$URL" ]; then
     exit 1
 fi
 
-if [ -n "$WAYLAND_DISPLAY" ]; then
-    printf $URL | wl-copy
-else
-    printf $URL | xclip
-fi
+printf $URL | gpaste-client
 
 if command -v notify-send > /dev/null; then
     notify-send --icon="cloud-upload" "Yld.Me Paste" "$URL"
 fi
+
 echo $URL
