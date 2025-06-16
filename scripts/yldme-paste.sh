@@ -10,7 +10,7 @@ if [ -z "$URL" ]; then
     exit 1
 fi
 
-printf $URL | gpaste-client
+printf $URL | wl-copy
 
 if command -v notify-send > /dev/null; then
     notify-send --icon="cloud-upload" "Yld.Me Paste" "$URL"
