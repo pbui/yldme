@@ -13,7 +13,7 @@ fi
 printf $URL | wl-copy
 
 if command -v notify-send > /dev/null; then
-    notify-send --icon="cloud-upload" "Yld.Me Paste" "$URL"
+    notify-send --icon="network-transmit" "Yld.Me Paste" "$URL"
 fi
 
 echo $URL
